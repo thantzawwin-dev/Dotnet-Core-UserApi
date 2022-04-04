@@ -1,12 +1,14 @@
 using UserApi.Models;
 using UserApi.Interfaces;
-using Microsoft.Extensions.Caching.Memory;
+// using Microsoft.Extensions.Caching.Memory;
 
 namespace UserApi.Services;
 
 public class UserService : IUserService
 {
   static List<User>? _userList {get;}
+
+  private const string V = "Id";
   static long _nextId = 3;
 
   static UserService()
@@ -17,7 +19,18 @@ public class UserService : IUserService
     };
   }
 
-  public List<User>? GetAll() => _userList;
+  public List<User>? GetAll(string orderBy) 
+  {
+    orderBy = orderBy is not null ? orderBy.ToLower() : "";
+    switch(orderBy)
+    {
+      case "fullname": return _userList.OrderBy(u => u.FullName).ToList();
+      case "email": return _userList.OrderBy(u => u.Email).ToList();
+      case "phone": return _userList.OrderBy(u => u.Phone).ToList();
+      case "age": return _userList.OrderBy(u => u.Age).ToList();
+      default: return _userList.OrderBy(u => u.Id).ToList();
+    }
+  }
 
   public User? Get(long id) => _userList.FirstOrDefault(u => u.Id == id);
 

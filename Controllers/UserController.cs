@@ -18,11 +18,11 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
-    // GET: api/User/
+    // GET: api/User/orderby=id
     [HttpGet]
-    public ActionResult<List<User>> GetUser()
+    public ActionResult<List<User>> GetUser(string? orderBy)
     {
-        return _userService.GetAll();
+        return _userService.GetAll(orderBy);
     }
 
     // GET: api/User/5

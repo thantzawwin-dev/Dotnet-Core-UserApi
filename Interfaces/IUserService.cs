@@ -4,7 +4,7 @@ namespace UserApi.Interfaces;
 
 public interface IUserService
 {
-  List<User>? GetAll();
+  List<User>? GetAll(string orderBy = "id");
 
   User? Get(long id);
 
